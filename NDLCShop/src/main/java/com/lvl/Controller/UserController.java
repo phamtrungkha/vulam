@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,8 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.lvl.DTO.LoginRequest;
 import com.lvl.DTO.LoginResponse;
+import com.lvl.Entity.AppRole;
 import com.lvl.Entity.User;
+import com.lvl.Entity.UserRole;
 import com.lvl.Repository.UserRepository;
+import com.lvl.Service.UserRegister;
 import com.lvl.Service.UserService;
 
 @RestController
@@ -29,6 +33,8 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserRegister userRegister;
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
@@ -55,7 +61,18 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
+    	user.setUserId(null);
+    	// Lấy role với ID = 1
+        AppRole role = userRegister.getRoleById(1);  // ID = 1 là role mặc định
+
+        // Gán role cho người dùng
+        UserRole userRole = new UserRole();
+        userRole.setUser(user);
+        userRole.setRole(role);
+
+        // Lưu người dùng và role vào cơ sở dữ liệu
         User createdUser = userService.createUser(user);
+        userService.save(userRole);  // Lưu role của người dùng
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
@@ -67,6 +84,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
+    @Transactional
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

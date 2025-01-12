@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.lvl.Entity.AppRole;
 import com.lvl.Entity.User;
@@ -85,7 +86,14 @@ public class UserService {
         }
     }
 
+    @Transactional
     public void deleteUser(Long id) {
+//	    User user = userRepository.findById(id).orElse(null);
+//	    if (user != null) {
+//	        List<UserRole> userRoles = userRoleRepository.findByUser(user);
+//	        userRoleRepository.deleteAll(userRoles);
+//	    }
+    	userRoleRepository.deleteByUserId(id);
         userRepository.deleteById(id);
     }
 }

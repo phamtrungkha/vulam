@@ -12,8 +12,12 @@ import { CommonModule } from '@angular/common';
 })
 export class AdminUserComponent {
   users: User[] = [];
-  selectedUser: User = { userId: 0, name: '', email: '', password: '', phone: '', gender: '', address: '', created_at: new Date() }; // Khởi tạo object User rỗng
-  genders = ['Nam', 'Nữ', 'Khác'];
+  selectedUser: User = { userId: 0, name: '', email: '', password: '', phone: '', gender: null, address: '', created_at: new Date() }; // Khởi tạo object User rỗng
+  genders = [
+    { display: 'Chọn giới tính', value: null }, 
+    { display: 'Nam', value: true },
+    { display: 'Nữ', value: false }// Cho phép giá trị null nếu cần
+  ];
 
   constructor(private userService: UserService) { }
 
@@ -30,7 +34,7 @@ export class AdminUserComponent {
   }
 
   clearFields() {
-    this.selectedUser = { userId: 0, name: '', email: '', password: '', phone: '', gender: '', address: '', created_at: new Date() };
+    this.selectedUser = { userId: 0, name: '', email: '', password: '', phone: '', gender: null, address: '', created_at: new Date() };
   }
 
   saveUser() {

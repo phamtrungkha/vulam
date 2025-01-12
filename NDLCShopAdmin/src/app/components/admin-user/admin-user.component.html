@@ -2,7 +2,7 @@
     <h1>Chi tiết tài khoản</h1>
   
     <div class="mb-3">
-      <label for="userId" class="form-label">Mã khách hàng (ẩn)</label>
+      <label for="userId" class="form-label" hidden>Mã khách hàng (ẩn)</label>
       <input type="text" class="form-control" id="userId" [(ngModel)]="selectedUser.userId" hidden>
     </div>
     <div class="mb-3">
@@ -24,7 +24,7 @@
     <div class="mb-3">
       <label for="gender" class="form-label">Giới tính</label>
       <select class="form-select" id="gender" [(ngModel)]="selectedUser.gender">
-        <option *ngFor="let gender of genders" [value]="gender">{{ setGenderValue(gender) }}</option>
+        <option *ngFor="let gender of genders" [ngValue]="gender.value">{{ gender.display }}</option>
       </select>
     </div>
     <div class="mb-3">
