@@ -1,0 +1,63 @@
+<div class="container">
+    <h1>Chi tiết tài khoản</h1>
+  
+    <div class="mb-3">
+      <label for="userId" class="form-label">Mã khách hàng (ẩn)</label>
+      <input type="text" class="form-control" id="userId" [(ngModel)]="selectedUser.userId" hidden>
+    </div>
+    <div class="mb-3">
+      <label for="name" class="form-label">Tên Khách hàng</label>
+      <input type="text" class="form-control" id="name" [(ngModel)]="selectedUser.name">
+    </div>
+      <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" [(ngModel)]="selectedUser.email">
+      </div>
+      <div class="mb-3">
+          <label for="password" class="form-label">Mật khẩu</label>
+          <input type="password" class="form-control" id="password" [(ngModel)]="selectedUser.password">
+      </div>
+    <div class="mb-3">
+      <label for="phone" class="form-label">Số điện thoại</label>
+      <input type="text" class="form-control" id="phone" [(ngModel)]="selectedUser.phone">
+    </div>
+    <div class="mb-3">
+      <label for="gender" class="form-label">Giới tính</label>
+      <select class="form-select" id="gender" [(ngModel)]="selectedUser.gender">
+        <option *ngFor="let gender of genders" [value]="gender">{{ setGenderValue(gender) }}</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="address" class="form-label">Địa chỉ</label>
+      <input type="text" class="form-control" id="address" [(ngModel)]="selectedUser.address">
+    </div>
+  
+    <button class="btn btn-secondary me-2" (click)="clearFields()">Xoá trường</button>
+    <button class="btn btn-primary" (click)="saveUser()">Lưu</button>
+  
+    <h2>Danh sách KH</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Mã KH</th>
+          <th>Tên Khách hàng</th>
+          <th>Email</th>
+          <th>Số điện thoại</th>
+          <th>Giới tính</th>
+          <th>Sửa</th>
+          <th>Xóa</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <td>{{ user.userId }}</td>
+          <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+          <td>{{ user.phone }}</td>
+          <td>{{ user.gender? 'Nam' : 'Nữ' }}</td>
+          <td><button class="btn btn-sm btn-warning" (click)="editUser(user)">Sửa</button></td>
+          <td><button class="btn btn-sm btn-danger" (click)="deleteUser(user)">Xóa</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
